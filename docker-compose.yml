@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: aqua-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: aqua_user
+      POSTGRES_PASSWORD: aqua_pass
+      POSTGRES_DB: aqua_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
+    container_name: aqua-server
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
+    depends_on:
+      - postgres
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.client
+    container_name: aqua-client
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - server
+
+volumes:
+  postgres_data:

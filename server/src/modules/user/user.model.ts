@@ -1,6 +1,6 @@
 
-import { pool } from "../../config/db.ts"
-import { CreateUserInput, UpdateUserInput } from "./user.schema.ts"
+import pool from "../../config/db"
+import { CreateUserInput, UpdateUserInput } from "./user.schema"
 
 export async function getUsers() {
   const { rows } = await pool.query("SELECT * FROM users ORDER BY id DESC")

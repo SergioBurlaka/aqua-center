@@ -1,7 +1,7 @@
 import { Router } from "express"
-import { validate } from "../../middleware/validate.ts"
-import { createUserSchema, updateUserSchema } from "./user.schema.ts"
-import * as UserController from "./user.controller.ts"
+import { validate } from "../../middleware/validate"
+import { createUserSchema, updateUserSchema } from "./user.schema"
+import * as UserController from "./user.controller"
 
 const router = Router()
 

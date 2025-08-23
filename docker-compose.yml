@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:15
@@ -20,7 +19,7 @@ services:
     container_name: aqua-server
     restart: always
     ports:
-      - "5000:5000"
+      - "4000:4000"
     environment:
       DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
     depends_on:

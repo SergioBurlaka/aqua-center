@@ -36,5 +36,16 @@ services:
     depends_on:
       - server
 
+  migrate:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
+    command: npm run migrate
+    environment:
+      DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
+      
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:

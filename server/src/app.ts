@@ -1,9 +1,18 @@
-import express from "express"
-import userRoutes from "./modules/user/user.routes"
+import cors from "cors";
+import express from "express";
+import userRoutes from "./modules/user/user.routes";
 
-const app = express()
-app.use(express.json())
+const app = express();
 
-app.use("/api/users", userRoutes)
+// Enable CORS for all origins (development)
+app.use(cors());
 
-export default app
+app.use(express.json());
+
+app.use("/api/users", userRoutes);
+
+app.listen(4000, () => {
+  console.log("Server running on port 4000");
+});
+
+export default app;

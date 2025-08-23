@@ -7,12 +7,14 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "migrate": "node-pg-migrate up -d $DATABASE_URL -m ./src/db/migrations"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "node-pg-migrate": "^8.0.3",
@@ -20,6 +22,7 @@
     "zod": "^4.0.17"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.3",
     "@types/node": "^24.3.0",

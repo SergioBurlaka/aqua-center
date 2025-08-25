@@ -1,14 +1,38 @@
-import { MigrationBuilder } from "node-pg-migrate";
+/** @type {import('node-pg-migrate').MigrationBuilder} */
+module.exports = {
+  up: async (pgm) => {
+    // Create users table
+    pgm.createTable("users", {
+      id: {
+        type: "serial",
+        primaryKey: true,
+      },
+      name: {
+        type: "varchar(255)",
+        notNull: true,
+      },
+      email: {
+        type: "varchar(255)",
+        notNull: true,
+        unique: true,
+      },
+      created_at: {
+        type: "timestamp",
+        notNull: true,
+        default: pgm.func("now()"),
+      },
+    });
 
-export async function up(pgm: MigrationBuilder): Promise<void> {
-  pgm.createTable("users", {
-    id: "id",
-    name: { type: "varchar(100)", notNull: true },
-    email: { type: "varchar(150)", notNull: true, unique: true },
-    created_at: { type: "timestamp", default: pgm.func("current_timestamp") },
-  });
-}
-
-export async function down(pgm: MigrationBuilder): Promise<void> {
-  pgm.dropTable("users");
-}
+    // Insert initial data
+    pgm.sql(`
+      INSERT INTO users (name, email, created_at)
+      VALUES 
+        ('Alice Johnson', 'alicejhonson151212@yopmail.com', NOW()),
+        ('Bob Smith', 'bobsmith151212@yopmail.com', NOW())
+    `);
+    
+  },
+  down: async (pgm) => {
+    pgm.dropTable("users");
+  },
+};

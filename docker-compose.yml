@@ -11,6 +11,18 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql:ro
+
+  migrate:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.server
+    command: npm run migrate
+    environment:
+      DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
+    depends_on:
+      - postgres
+    restart: "no"
 
   server:
     build:
@@ -23,7 +35,7 @@ services:
     environment:
       DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
     depends_on:
-      - postgres
+      - migrate
 
   client:
     build:
@@ -35,17 +47,6 @@ services:
       - "3000:3000"
     depends_on:
       - server
-
-  migrate:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.server
-    command: npm run migrate
-    environment:
-      DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
-      
-    depends_on:
-      - postgres
 
 volumes:
   postgres_data:

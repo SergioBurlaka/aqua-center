@@ -11,8 +11,4 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 
-app.listen(4000, () => {
-  console.log("Server running on port 4000");
-});
-
 export default app;

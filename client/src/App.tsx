@@ -11,7 +11,7 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/users') // Replace with your backend URL and port
+    fetch('/api/users')
       .then((res) => res.json())
       .then((data) => {
         setUsers(data);

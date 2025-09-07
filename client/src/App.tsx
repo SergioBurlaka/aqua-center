@@ -25,6 +25,7 @@ const App: React.FC = () => {
   return (
     <div>
       <h1>Welcome to the Aqua Center</h1>
+      <h1>Helloo Grygoriy</h1>
       <p>This is the main application component.</p>
       <ul>
         {users.map((user) => (

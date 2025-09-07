@@ -12,6 +12,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql:ro
+    networks:
+      - app-network
 
   migrate:
     build:
@@ -23,6 +25,8 @@ services:
     depends_on:
       - postgres
     restart: "no"
+    networks:
+      - app-network
 
   server:
     build:
@@ -36,6 +40,8 @@ services:
       DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
     depends_on:
       - migrate
+    networks:
+      - app-network
 
   client:
     build:
@@ -47,6 +53,8 @@ services:
       - "3000:3000"
     depends_on:
       - server
+    networks:
+      - app-network
 
   nginx:
     image: nginx:alpine
@@ -59,6 +67,12 @@ services:
     depends_on:
       - client
       - server
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   postgres_data:

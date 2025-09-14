@@ -11,7 +11,12 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./backup.sql:/docker-entrypoint-initdb.d/backup.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aqua_user -d aqua_db || pg_isready -U aqua_user -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 5s
     networks:
       - app-network
 
@@ -23,7 +28,8 @@ services:
     environment:
       DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     restart: "no"
     networks:
       - app-network
@@ -39,7 +45,10 @@ services:
     environment:
       DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
     depends_on:
-      - migrate
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     networks:
       - app-network
 

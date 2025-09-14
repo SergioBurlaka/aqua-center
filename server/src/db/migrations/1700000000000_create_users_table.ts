@@ -1,6 +1,6 @@
 /** @type {import('node-pg-migrate').MigrationBuilder} */
 module.exports = {
-  up: async (pgm) => {
+  up: async (pgm: any) => {
     // Create users table
     pgm.createTable("users", {
       id: {
@@ -21,18 +21,25 @@ module.exports = {
         notNull: true,
         default: pgm.func("now()"),
       },
-    });
+    }, { ifNotExists: true });
 
     // Insert initial data
     pgm.sql(`
-      INSERT INTO users (name, email, created_at)
-      VALUES 
-        ('Alice Johnson', 'alicejhonson151212@yopmail.com', NOW()),
-        ('Bob Smith', 'bobsmith151212@yopmail.com', NOW())
+      DO $$
+      BEGIN
+        IF NOT EXISTS (SELECT 1 FROM users) THEN
+          INSERT INTO users (name, email, created_at)
+          VALUES 
+            ('Alice Johnson', 'alicejhonson141212@yopmail.com', NOW()),
+            ('Bop Jovy', 'bonsmith131313@yopmail.com', NOW())
+          ON CONFLICT (email) DO NOTHING;
+        END IF;
+      END
+      $$;
     `);
     
   },
-  down: async (pgm) => {
+  down: async (pgm: any) => {
     pgm.dropTable("users");
   },
 };

@@ -11,26 +11,14 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./server/scripts/initdb/00-restore-backup.sh:/docker-entrypoint-initdb.d/00-restore-backup.sh:ro
+      - ./backup.sql:/backup/backup.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U aqua_user -d aqua_db || pg_isready -U aqua_user -d postgres"]
       interval: 5s
       timeout: 5s
       retries: 20
       start_period: 5s
-    networks:
-      - app-network
-
-  migrate:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.server
-    command: npm run migrate
-    environment:
-      DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
-    depends_on:
-      postgres:
-        condition: service_healthy
-    restart: "no"
     networks:
       - app-network
 
@@ -47,8 +35,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
     networks:
       - app-network
 

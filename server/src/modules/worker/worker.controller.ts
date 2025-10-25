@@ -18,7 +18,7 @@ export async function login(req: Request, res: Response) {
     if (!secret) return res.status(500).json({ error: "JWT secret not configured" })
 
     const token = jwt.sign(
-      { sub: worker.id, email: worker.email, roleId: worker.role_id },
+      { sub: worker.id, email: worker.email, role: worker.role },
       secret,
       { expiresIn: "7d" }
     )
@@ -29,7 +29,7 @@ export async function login(req: Request, res: Response) {
         id: worker.id,
         name: worker.name,
         email: worker.email,
-        roleId: worker.role_id,
+        role: worker.role,
         brigadeId: worker.brigade_id,
       },
     })

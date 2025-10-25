@@ -32,6 +32,7 @@ services:
       - "4000:4000"
     environment:
       DATABASE_URL: postgres://aqua_user:aqua_pass@postgres:5432/aqua_db
+      JWT_SECRET: change-me-dev-secret
     depends_on:
       postgres:
         condition: service_healthy

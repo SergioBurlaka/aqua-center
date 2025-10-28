@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import { type FC, lazy, Suspense } from 'react';
 
-type User = {
-  id: number;
-  name: string;
-  // Add other user fields as needed
-};
+import NiceModal from '@ebay/nice-modal-react';
+import { useCredentialsHydration } from '@store/credentials.store';
+import { QueryClientProvider, useQueryErrorResetBoundary } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ErrorBoundary } from 'react-error-boundary';
+import { BrowserRouter } from 'react-router-dom';
 
-const App: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
+import { ErrorBoundaryFallback, SuspenseFallback } from '@components/layout';
 
-  useEffect(() => {
-    fetch('/api/users')
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
+import { AntThemeProvider, reactQueryClient } from '@shared/lib';
 
-  if (loading) return <div>Loading...</div>;
+import './index.css';
+import { InterceptorsProvider } from './providers/InterceptorsProvider';
+
+const LazyRootRoutes = lazy(() => import('../modules/Root.routes'));
+
+export const App: FC = () => {
+  const { reset: resetQueries } = useQueryErrorResetBoundary();
+  const haveCredentialsHydrated = useCredentialsHydration();
 
   return (
-    <div>
-      <h1>Welcome to the Aqua Center</h1>
-      <h1>Helloo Grygoriy</h1>
-      <p>This is the main application component.</p>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
-    </div>
+    <BrowserRouter>
+      <AntThemeProvider>
+        <InterceptorsProvider>
+          <Suspense fallback={<SuspenseFallback />}>
+            <QueryClientProvider client={reactQueryClient}>
+              <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onReset={resetQueries}>
+                <NiceModal.Provider>{haveCredentialsHydrated && <LazyRootRoutes />}</NiceModal.Provider>
+              </ErrorBoundary>
+              {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} position="left" />}
+            </QueryClientProvider>
+          </Suspense>
+        </InterceptorsProvider>
+      </AntThemeProvider>
+    </BrowserRouter>
   );
 };
-
-export default App;

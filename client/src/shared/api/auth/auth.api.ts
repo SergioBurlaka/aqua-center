@@ -1,7 +1,8 @@
 import { apiClient } from '../../lib';
+import type { LoginBodyType } from './auth.types';
 
 export const AuthApi = {
-  async login(payload: { email: string; password: string }) {
-    return apiClient.post('/login', payload);
+  async login(payload: LoginBodyType) {
+    return apiClient.post('/workers/login', payload);
   },
 };

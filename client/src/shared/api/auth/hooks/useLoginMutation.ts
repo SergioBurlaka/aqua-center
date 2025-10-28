@@ -7,7 +7,7 @@ import { authKeys } from '../auth.keys';
 import type { LoginBodyType } from '../auth.types';
 
 export const useLoginMutation = (): UseMutationResult<unknown, Error, LoginBodyType> => {
-  const { setToken } = useCredentialsStore();
+  const { setToken, setWorker } = useCredentialsStore();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -19,7 +19,8 @@ export const useLoginMutation = (): UseMutationResult<unknown, Error, LoginBodyT
     },
     onSuccess: ({ data }) => {
       queryClient.removeQueries();
-      setToken(data?.data?.token);
+      setToken(data?.token);
+      setWorker(data?.worker);
     },
   });
 };

@@ -3,7 +3,7 @@ import { NotificationInstance } from 'antd/lib/notification/interface';
 import axios from 'axios';
 import queryString from 'query-string';
 
-const { VITE_API_URL } = import.meta.env;
+const VITE_API_URL = (import.meta as any).env.VITE_API_URL;
 
 export const headersMultiPartFormData = {
   'Content-Type': 'application/merge-patch+json, multipart/form-data',

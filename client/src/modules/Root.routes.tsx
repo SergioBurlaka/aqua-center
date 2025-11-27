@@ -13,8 +13,8 @@ const RootRoutes: FC = () => {
   if (token)
     return (
       <RouterRoutes>
-        <Route path="/dashboard" element={<DashboardModule />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="/" element={<DashboardModule />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </RouterRoutes>
     );
   return (

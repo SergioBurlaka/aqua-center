@@ -29,7 +29,7 @@ export const App: FC = () => {
               <ErrorBoundary FallbackComponent={ErrorBoundaryFallback} onReset={resetQueries}>
                 <NiceModal.Provider>{haveCredentialsHydrated && <LazyRootRoutes />}</NiceModal.Provider>
               </ErrorBoundary>
-              {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} position="left" />}
+              <ReactQueryDevtools initialIsOpen={false} position="left" />
             </QueryClientProvider>
           </Suspense>
         </InterceptorsProvider>

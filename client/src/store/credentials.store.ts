@@ -31,7 +31,7 @@ export const credentialsStore = createStore<ProjectIdStoreType>()(
     }),
     {
       name: 'token',
-      storage: createJSONStorage(() => localforageState),
+      storage: createJSONStorage(() => sessionStorage),
       partialize: ({ token, worker }) => ({ token, worker }),
     },
   ),

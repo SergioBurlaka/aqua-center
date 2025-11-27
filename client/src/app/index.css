@@ -1,11 +1,4 @@
 @import "tailwindcss";
-/* @import "modern-normalize";
-@import "the-new-css-reset"; */
-
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-
 
 @font-face {
   font-family: "Plus Jakarta Sans";

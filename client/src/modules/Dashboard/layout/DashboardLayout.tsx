@@ -15,15 +15,16 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const { isSiderCollapse, setSiderCollapse } = useThemeSettingsStore();
 
   return (
-    <Layout className="relative h-full min-h-screen">
+    <Layout className="relative h-full min-h-screen ">
       <Layout.Header
-        className="sticky top-0 z-30 w-full px-8 shadow-md md:px-8"
+        className="sticky top-0 z-30 w-full p-10  shadow-md "
         style={{
           height: LayoutConstants.HEADER_HEIGHT,
           backgroundColor: antTheme.token.colorBgContainer,
+          padding: '0',
         }}
       >
-        <div className="flex h-full items-center justify-between gap-4">
+        <div className="flex h-full items-center justify-between gap-4 px-4 md:px-8">
           <div className="flex h-full">
             <div className="mr-12 flex max-w-[250px] items-center text-2xl font-bold">
               AQUA-CENTER

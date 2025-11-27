@@ -17,8 +17,9 @@ const OrdersPage: FC = () => {
             display: "flex",
             flexDirection: "column",
             flexGrow: 1,
-            paddingTop: 0,
-            paddingBottom: 6,
+            padding: '1rem',
+            // paddingTop: 0,
+            // paddingBottom: 6,
           },
         }}
       >

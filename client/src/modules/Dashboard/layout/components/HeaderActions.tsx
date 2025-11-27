@@ -16,7 +16,7 @@ const Logout: FC = () => {
   return (
     <div className="flex items-center gap-2">
       <Tooltip title="Logout" placement="bottom">
-        <Button type="text" icon={<LogoutOutlined />} onClick={handleLogout} />
+        <Button type="text" size='large' icon={<LogoutOutlined />} onClick={handleLogout} />
       </Tooltip>
     </div>
   );

@@ -34,6 +34,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
       </Layout.Header>
       <Layout hasSider>
         <Layout.Sider
+          className="hidden md:block max-w-md"
           width={130}
           collapsedWidth={60}
           trigger={null}

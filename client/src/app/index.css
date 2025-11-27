@@ -1,24 +1,32 @@
-@import 'modern-normalize';
-@import 'the-new-css-reset';
+@import "tailwindcss";
+/* @import "modern-normalize";
+@import "the-new-css-reset"; */
 
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; */
+
 
 @font-face {
-  font-family: 'Plus Jakarta Sans';
-  src: url('../shared/assets/fonts/PlusJakartaSans-Regular.ttf');
+  font-family: "Plus Jakarta Sans";
+  src: url("../shared/assets/fonts/PlusJakartaSans-Regular.ttf");
   font-weight: normal;
 }
 
 @font-face {
-  font-family: 'Plus Jakarta Sans';
-  src: url('../shared/assets/fonts/PlusJakartaSans-Bold.ttf');
+  font-family: "Plus Jakarta Sans";
+  src: url("../shared/assets/fonts/PlusJakartaSans-Bold.ttf");
   font-weight: bold;
 }
 
-body {
+body, html, #root {
   height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  > div{
+    height: 100%;
+  }
 }
 
 .ant-tabs-nav {

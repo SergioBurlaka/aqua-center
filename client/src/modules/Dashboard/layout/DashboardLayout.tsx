@@ -25,7 +25,7 @@ export const DashboardLayout: FC<PropsWithChildren> = ({ children }) => {
       >
         <div className="flex h-full items-center justify-between gap-4">
           <div className="flex h-full">
-            <div className="mr-12 flex max-w-[250px] items-center">
+            <div className="mr-12 flex max-w-[250px] items-center text-2xl font-bold">
               AQUA-CENTER
             </div>
           </div>

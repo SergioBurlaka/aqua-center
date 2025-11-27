@@ -52,9 +52,7 @@ export const AntThemeProvider: FC<PropsWithChildren<unknown>> = ({ children }) =
         titleMarginBottom: 0,
         titleMarginTop: 0,
       },
-      Layout: {
-        bodyBg: '#fff',
-      },
+    
     },
   };
 

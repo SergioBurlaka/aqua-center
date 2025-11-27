@@ -3,7 +3,16 @@ import { NotificationInstance } from 'antd/lib/notification/interface';
 import axios from 'axios';
 import queryString from 'query-string';
 
-const VITE_API_URL = (import.meta as any).env.VITE_API_URL;
+// In production (non-localhost), force same-origin '/api' to avoid CORS/loopback issues
+const VITE_API_URL = (() => {
+  const envUrl = (import.meta as any).env.VITE_API_URL as string | undefined;
+  if (typeof window !== 'undefined') {
+    const host = window.location.hostname;
+    const isLocal = host === 'localhost' || host === '127.0.0.1';
+    if (!isLocal) return '/api';
+  }
+  return envUrl || '/api';
+})();
 
 export const headersMultiPartFormData = {
   'Content-Type': 'application/merge-patch+json, multipart/form-data',

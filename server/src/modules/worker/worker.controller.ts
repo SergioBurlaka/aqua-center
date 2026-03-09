@@ -30,7 +30,6 @@ export async function login(req: Request, res: Response) {
         name: worker.name,
         email: worker.email,
         role: worker.role,
-        brigadeId: worker.brigade_id,
       },
     })
   } catch (e: any) {

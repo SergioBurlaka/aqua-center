@@ -13,6 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./server/scripts/initdb/00-restore-backup.sh:/docker-entrypoint-initdb.d/00-restore-backup.sh:ro
       - ./backup.sql:/backup/backup.sql:ro
+      - ./backup-11-30-2025.sql:/backup/backup-fallback.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U aqua_user -d aqua_db || pg_isready -U aqua_user -d postgres"]
       interval: 5s

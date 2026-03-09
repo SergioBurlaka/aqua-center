@@ -12,7 +12,7 @@ export type WorkerRow = {
 
 export async function findWorkerByEmail(email: string): Promise<WorkerRow | null> {
   const { rows } = await pool.query<WorkerRow>(
-    `SELECT w.id, w.name, w.email, w.password, w.role_id, w.brigade_id, r.role AS role
+    `SELECT w.id, w.name, w.email, w.password, w.role_id, r.role AS role
      FROM workers w
      JOIN roles r ON r.id = w.role_id
      WHERE w.email = $1`,

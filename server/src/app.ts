@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 import userRoutes from "./modules/user/user.routes";
 import workerRoutes from "./modules/worker/worker.routes";
+import clientRoutes from "./modules/client/client.routes";
 
 const app = express();
 
@@ -12,5 +13,6 @@ app.use(express.json());
 
 app.use("/api/users", userRoutes);
 app.use("/api/workers", workerRoutes);
+app.use("/api/clients", clientRoutes);
 
 export default app;

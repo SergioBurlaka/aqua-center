@@ -5,24 +5,29 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { FormSelect } from "@components/form/form-fields";
 import { DashboardPage } from "@components/layout";
-import {
-  ClientDto,
-  useClientsQuery,
-  useProjectsByClientIdQuery,
-} from "@shared/api/clients";
+import { useClientsQuery, useProjectsByClientIdQuery } from "@shared/api/clients";
 import { useCredentialsStore } from "@store/credentials.store";
+
+type OrdersPageForm = {
+  client_id: string | undefined;
+  project_id: string | undefined;
+};
+
+type ProjectRow = Record<string, unknown>;
 
 const OrdersPage: FC = () => {
   const { worker } = useCredentialsStore();
   const { data: clients, isLoading, isError, error } = useClientsQuery();
   const [clientId, setClientId] = useState<string | undefined>();
-  console.log(clientId, "clientId");
 
-  const { data: projects } = useProjectsByClientIdQuery({ clientId });
-  console.log(projects, "projects");
+  const {
+    data: projects,
+    isLoading: projectsLoading,
+    isFetching: projectsFetching,
+  } = useProjectsByClientIdQuery({ clientId });
 
-  const formMethods = useForm<ClientDto>({
-    defaultValues: { client_id: "" },
+  const formMethods = useForm<OrdersPageForm>({
+    defaultValues: { client_id: undefined, project_id: undefined },
   });
 
   const clientOptions = useMemo(
@@ -37,6 +42,23 @@ const OrdersPage: FC = () => {
       }),
     [clients],
   );
+
+  const projectOptions = useMemo(
+    () =>
+      ((projects ?? []) as ProjectRow[])
+        .map((project) => {
+          const id = String(project["Projects ID"] ?? "").trim();
+          const name = String(project["Project Name"] ?? "Unnamed project").trim();
+          const label = id
+            ? `${name || id}${name && id ? ` (${id})` : ""}`
+            : name || id;
+          return { value: id, label: label || id };
+        })
+        .filter((option) => option.value),
+    [projects],
+  );
+
+  const projectsSelectLoading = projectsLoading || projectsFetching;
 
   return (
     <DashboardPage>
@@ -80,9 +102,10 @@ const OrdersPage: FC = () => {
                   name="client_id"
                   label="Client"
                   cb={(client_id) => {
-                    setClientId(
-                      typeof client_id === "string" ? client_id : undefined,
-                    );
+                    const id =
+                      typeof client_id === "string" ? client_id : undefined;
+                    setClientId(id);
+                    formMethods.setValue("project_id", undefined);
                   }}
                   SelectProps={{
                     options: clientOptions,
@@ -91,6 +114,21 @@ const OrdersPage: FC = () => {
                     showSearch: true,
                     optionFilterProp: "label",
                     placeholder: "Select a client",
+                  }}
+                />
+                <FormSelect
+                  name="project_id"
+                  label="Project"
+                  SelectProps={{
+                    options: projectOptions,
+                    loading: projectsSelectLoading,
+                    disabled: !clientId,
+                    allowClear: true,
+                    showSearch: true,
+                    optionFilterProp: "label",
+                    placeholder: clientId
+                      ? "Select a project"
+                      : "Select a client first",
                   }}
                 />
               </Form>

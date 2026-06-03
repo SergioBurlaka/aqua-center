@@ -3,6 +3,7 @@ import express from "express";
 import userRoutes from "./modules/user/user.routes";
 import workerRoutes from "./modules/worker/worker.routes";
 import clientRoutes from "./modules/client/client.routes";
+import projectRoutes from "./modules/project/project.routes";
 
 const app = express();
 
@@ -14,5 +15,6 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/workers", workerRoutes);
 app.use("/api/clients", clientRoutes);
+app.use("/api/projects", projectRoutes);
 
 export default app;

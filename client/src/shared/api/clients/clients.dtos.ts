@@ -3,8 +3,8 @@ import { z } from 'zod';
 export const clientDtoSchema = z.object({
   _RowNumber: z.string(),
   'Row ID': z.string(),
-  'Client ID': z.string(),
-  Назва: z.string(),
+  client_id: z.string(),
+  ClientName: z.string(),
   'Населений пункт': z.string(),
   Адреса: z.string(),
   Локація: z.string(),

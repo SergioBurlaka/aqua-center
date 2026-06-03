@@ -20,6 +20,7 @@ export const getClientsFromAppSheet = async (req: Request, res: Response) => {
       return res.status(500).json({ error: "APPSHEET_APP_ID is not configured" })
     }
     // https://www.appsheet.com/api/v2/apps/85a0a91a-2bca-4c1f-bdf5-f07450840000/tables/Clients/Action
+    // https://www.appsheet.com/api/v2/apps/85a0a91a-2bca-4c1f-bdf5-f07450840000/tables/Projects/Action
     const endpoint = `https://www.appsheet.com/api/v2/apps/${appId}/tables/${tableName}/Action`
 
     const requestBody = {

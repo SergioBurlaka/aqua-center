@@ -2,11 +2,12 @@ import type { FC } from 'react';
 import { useState } from 'react';
 
 import { Form, Select } from 'antd';
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import type { FormSelectProps } from './types';
 
 export const FormSelect: FC<FormSelectProps> = ({ name, label, labelCol, required, tooltip, SelectProps, cb }) => {
+  const { control } = useFormContext();
   const [open, setOpen] = useState(false);
 
   const handleToggleDropdown = (): void => {
@@ -15,6 +16,7 @@ export const FormSelect: FC<FormSelectProps> = ({ name, label, labelCol, require
 
   return (
     <Controller
+      control={control}
       name={name}
       rules={{ required }}
       render={({ field, fieldState: { error } }) => (

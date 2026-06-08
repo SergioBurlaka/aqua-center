@@ -5,15 +5,16 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { FormSelect } from "@components/form/form-fields";
 import { DashboardPage } from "@components/layout";
-import { useClientsQuery, useProjectsByClientIdQuery } from "@shared/api/clients";
+import {
+  useClientsQuery,
+  useProjectsByClientIdQuery,
+} from "@shared/api/clients";
 import { useCredentialsStore } from "@store/credentials.store";
 
 type OrdersPageForm = {
   client_id: string | undefined;
   project_id: string | undefined;
 };
-
-type ProjectRow = Record<string, unknown>;
 
 const OrdersPage: FC = () => {
   const { worker } = useCredentialsStore();
@@ -45,10 +46,9 @@ const OrdersPage: FC = () => {
 
   const projectOptions = useMemo(
     () =>
-      ((projects ?? []) as ProjectRow[])
-        .map((project) => {
-          const id = String(project["Projects ID"] ?? "").trim();
-          const name = String(project["Project Name"] ?? "Unnamed project").trim();
+      (projects ?? []).map((project) => {
+          const id = project["Projects ID"].trim();
+          const name = (project["Project Name"] || "Unnamed project").trim();
           const label = id
             ? `${name || id}${name && id ? ` (${id})` : ""}`
             : name || id;
